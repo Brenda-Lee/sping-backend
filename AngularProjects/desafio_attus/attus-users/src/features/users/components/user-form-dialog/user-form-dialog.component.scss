@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.dialog-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 16px 24px 8px;
+}
+
+.dialog-content {
+  padding: 8px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.full {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .grow {
+    flex: 1 1 180px;
+  }
+
+  .phone-type {
+    flex: 0 0 140px;
+  }
+}
+
+.hint {
+  margin: 8px 0 4px;
+  color: #1976d2;
+  font-size: 0.875rem;
+}
+
+.actions {
+  padding: 8px 24px 16px;
+  justify-content: flex-start;
+}

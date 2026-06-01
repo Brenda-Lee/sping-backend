@@ -1,0 +1,30 @@
+server:
+  # Mesma porta usada hoje pelo json-server, para o frontend Angular
+  # funcionar sem nenhuma alteracao (http://localhost:3000/users).
+  port: ${SERVER_PORT:3000}
+
+spring:
+  application:
+    name: attus-users-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/attus_users}
+    username: ${DB_USERNAME:attus}
+    password: ${DB_PASSWORD:attus}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    default-property-inclusion: non_null
+
+# Origem do frontend Angular liberada no CORS (ng serve).
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+
+logging:
+  level:
+    org.hibernate.SQL: info

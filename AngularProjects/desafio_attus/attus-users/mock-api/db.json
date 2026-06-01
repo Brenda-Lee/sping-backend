@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "nome": "João Silva",
+      "email": "joao@email.com",
+      "cpf": "33662965003",
+      "telefone": "85999999999",
+      "tipoTelefone": "CELULAR"
+    },
+    {
+      "id": "2",
+      "nome": "Maria Souza",
+      "email": "maria@email.com",
+      "cpf": "94014281078",
+      "telefone": "85988888888",
+      "tipoTelefone": "FIXO"
+    },
+    {
+      "id": "zEEDOeUev88",
+      "nome": "Heloise Vergara",
+      "email": "heloiseVergara@gmail.com",
+      "cpf": "92393781030",
+      "telefone": "0000000000",
+      "tipoTelefone": "CELULAR"
+    },
+    {
+      "id": "J5x_JY43wos",
+      "nome": "Julim da Silva",
+      "email": "julim@mail.com",
+      "cpf": "92393781030",
+      "telefone": "85987654321",
+      "tipoTelefone": "CELULAR"
+    },
+    {
+      "id": "KLS5i37mUIA",
+      "nome": "Gloris Fofis",
+      "email": "glorisfofis123@mail.com",
+      "cpf": "98742710006",
+      "telefone": "09992172727",
+      "tipoTelefone": "CELULAR"
+    },
+    {
+      "id": "OM_A_WPqqNM",
+      "nome": "Chica da Silva",
+      "email": "chiquinhazinha@email.com",
+      "cpf": "16977755008",
+      "telefone": "08282888775",
+      "tipoTelefone": "CELULAR"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

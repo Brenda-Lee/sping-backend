@@ -1,0 +1,51 @@
+<mat-toolbar class="users-toolbar">
+  <div class="toolbar-start">
+    <button mat-icon-button class="menu-btn" aria-label="Menu" type="button">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="title">USUÁRIOS</span>
+  </div>
+
+  <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput type="text" placeholder="Pesquisar..." [formControl]="searchControl" />
+  </mat-form-field>
+
+  <div class="toolbar-end"></div>
+</mat-toolbar>
+
+<main class="content">
+  <h2 class="section-label">Usuários cadastrados</h2>
+
+  @if (loading$ | async) {
+    <div class="loading">
+      <mat-spinner diameter="36" />
+    </div>
+  }
+
+  @if (error$ | async; as error) {
+    <div class="error" role="alert">{{ error }}</div>
+  }
+
+  @let users = users$ | async;
+
+  @if (users && users.length > 0) {
+    <div class="user-list">
+      @for (user of users; track trackById($index, user)) {
+        <app-user-card [user]="user" (edit)="openEditDialog($event)" />
+      }
+    </div>
+  } @else if (!(loading$ | async) && !(error$ | async)) {
+    <p class="empty">Nenhum usuário encontrado.</p>
+  }
+</main>
+
+<button
+  mat-fab
+  class="fab-add"
+  aria-label="Adicionar novo usuário"
+  type="button"
+  (click)="openCreateDialog()"
+>
+  <mat-icon>add</mat-icon>
+</button>

@@ -1,0 +1,77 @@
+<h2 mat-dialog-title class="dialog-title">
+  {{ isEditMode ? 'Editar usuário' : 'Adicionar novo usuário' }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content class="dialog-content">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Usuário (e-mail) *</mat-label>
+      <input matInput type="email" formControlName="email" autocomplete="email" />
+      @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+        <mat-error>E-mail é obrigatório.</mat-error>
+      }
+      @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+        <mat-error>E-mail inválido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Nome completo *</mat-label>
+      <input matInput type="text" formControlName="nome" autocomplete="name" />
+      @if (form.controls.nome.touched && form.controls.nome.hasError('required')) {
+        <mat-error>Nome é obrigatório.</mat-error>
+      }
+      @if (form.controls.nome.touched && form.controls.nome.hasError('minlength')) {
+        <mat-error>Nome deve ter pelo menos 3 caracteres.</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>CPF *</mat-label>
+        <input matInput type="text" formControlName="cpf" [mask]="cpfMask" inputmode="numeric" />
+        @if (form.controls.cpf.touched && form.controls.cpf.hasError('required')) {
+          <mat-error>CPF é obrigatório.</mat-error>
+        }
+        @if (form.controls.cpf.touched && form.controls.cpf.hasError('cpfInvalid')) {
+          <mat-error>CPF inválido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Número do telefone *</mat-label>
+        <input matInput type="tel" formControlName="telefone" [mask]="telefoneMask" inputmode="tel" />
+        @if (form.controls.telefone.touched && form.controls.telefone.hasError('required')) {
+          <mat-error>Telefone é obrigatório.</mat-error>
+        }
+        @if (form.controls.telefone.touched && form.controls.telefone.hasError('minlength')) {
+          <mat-error>Telefone incompleto.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="phone-type">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipoTelefone">
+          @for (type of phoneTypes; track type.value) {
+            <mat-option [value]="type.value">{{ type.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <p class="hint">
+      <em>O usuário receberá uma senha provisória para acesso ao sistema por SMS.</em>
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="actions">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      SALVAR
+    </button>
+  </mat-dialog-actions>
+</form>

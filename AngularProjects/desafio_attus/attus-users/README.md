@@ -1,282 +1,156 @@
-# Nx Angular Repository
+# Attus Users
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Aplicação Angular para gerenciamento de usuários. Permite listar, cadastrar e editar usuários com validação de CPF, máscara de campos e busca em tempo real.
 
-✨ A repository showcasing key [Nx](https://nx.dev) features for Angular monorepos ✨
-🚀 If you haven't connected to Nx Cloud yet, [complete your setup here](https://cloud.nx.app/setup/connect-workspace/guide). Get faster builds with remote caching, distributed task execution, and self-healing CI. [See how your workspace can benefit](#nx-cloud).
-## 📦 Project Overview
+---
 
-This repository demonstrates a production-ready Angular monorepo with:
+## Stack
 
-- **2 Applications**
+| Camada | Tecnologia |
+|---|---|
+| Framework | Angular 21 (Standalone Components) |
+| Gerenciamento de estado | NgRx Store + Effects + Entity |
+| UI | Angular Material 21 |
+| API mock | json-server 1.x |
+| Testes | Vitest 4 + @analogjs/vitest-angular |
+| Máscaras de input | ngx-mask |
+| Linguagem | TypeScript 5.9 |
 
-  - `shop` - Angular e-commerce application with product listings and detail views
-  - `api` - Backend API with Docker support serving product data
+---
 
-- **6 Libraries**
+## Pré-requisitos
 
-  - `@org/feature-products` - Product listing feature (Angular)
-  - `@org/feature-product-detail` - Product detail feature (Angular)
-  - `@org/data` - Data access layer for shop features
-  - `@org/shared-ui` - Shared UI components
-  - `@org/models` - Shared data models
-  - `@org/products` - API product service library
+- Node.js 20+
+- npm 10+
 
-- **E2E Testing**
-  - `shop-e2e` - Playwright tests for the shop application
+---
 
-## 🚀 Quick Start
+## Instalação
 
 ```bash
-# Clone the repository
-git clone <your-fork-url>
-cd <your-repository-name>
-
-# Install dependencies
-# (Note: You may need --legacy-peer-deps)
 npm install
-
-# Serve the Angular shop application (this will simultaneously serve the API backend)
-npx nx serve shop
-
-# ...or you can serve the API separately
-npx nx serve api
-
-# Build all projects
-npx nx run-many -t build
-
-# Run tests
-npx nx run-many -t test
-
-# Lint all projects
-npx nx run-many -t lint
-
-# Run e2e tests
-npx nx e2e shop-e2e
-
-# Run tasks in parallel
-
-npx nx run-many -t lint test build e2e --parallel=3
-
-# Visualize the project graph
-npx nx graph
 ```
 
-## ⭐ Featured Nx Capabilities
+---
 
-This repository showcases several powerful Nx features:
+## Como rodar o projeto
 
-### 1. 🔒 Module Boundaries
+O projeto depende de uma API mock rodando localmente via **json-server**. É necessário abrir **dois terminais** em paralelo.
 
-Enforces architectural constraints using tags. Each project has specific dependencies it can use:
-
-- `scope:shared` - Can be used by all projects
-- `scope:shop` - Shop-specific libraries
-- `scope:api` - API-specific libraries
-- `type:feature` - Feature libraries
-- `type:data` - Data access libraries
-- `type:ui` - UI component libraries
-
-**Try it out:**
+### Terminal 1 — API mock (json-server)
 
 ```bash
-# See the current project graph and boundaries
-npx nx graph
-
-# View a specific project's details
-npx nx show project shop --web
+npx json-server mock-api/db.json --port 3000
 ```
 
-[Learn more about module boundaries →](https://nx.dev/features/enforce-module-boundaries)
+O servidor sobe em `http://localhost:3000`. Os dados persistem no arquivo `mock-api/db.json`.
 
-### 2. 🐳 Docker Integration
-
-The API project includes Docker support with automated targets and release management:
+### Terminal 2 — Aplicação Angular
 
 ```bash
-# Build Docker image
-npx nx docker:build api
-
-# Run Docker container
-npx nx docker:run api
-
-# Release with automatic Docker image versioning
-npx nx release
+npm start
 ```
 
-**Nx Release for Docker:** The repository is configured to use Nx Release for managing Docker image versioning and publishing. When running `nx release`, Docker images for the API project are automatically versioned and published based on the release configuration in `nx.json`. This integrates seamlessly with semantic versioning and changelog generation.
+Acesse `http://localhost:4200` no navegador. A aplicação recarrega automaticamente ao salvar arquivos.
 
-[Learn more about Docker integration →](https://nx.dev/recipes/nx-release/release-docker-images)
+---
 
-### 3. 🎭 Playwright E2E Testing
-
-End-to-end testing with Playwright is pre-configured:
+## Como rodar os testes
 
 ```bash
-# Run e2e tests
-npx nx e2e shop-e2e
-
-# Run e2e tests in CI mode
-npx nx e2e-ci shop-e2e
+npm test
 ```
 
-[Learn more about E2E testing →](https://nx.dev/technologies/test-tools/playwright/introduction#e2e-testing)
-
-### 4. ⚡ Vitest for Unit Testing
-
-Fast unit testing with Vite for Angular libraries:
+Executa todos os testes com o Vitest no modo watch. Para rodar uma única vez e encerrar:
 
 ```bash
-# Test a specific library
-npx nx test data
-
-# Test all projects
-npx nx run-many -t test
+npm test -- --run
 ```
 
-[Learn more about Vite testing →](https://nx.dev/recipes/vite)
-
-### 5. 🔧 Self-Healing CI
-
-The CI pipeline includes `nx fix-ci` which automatically identifies and suggests fixes for common issues:
+Para abrir a interface visual do Vitest:
 
 ```bash
-# In CI, this command provides automated fixes
-npx nx fix-ci
+npm run test:ui
 ```
 
-This feature helps maintain a healthy CI pipeline by automatically detecting and suggesting solutions for:
-
-- Missing dependencies
-- Incorrect task configurations
-- Cache invalidation issues
-- Common build failures
-
-[Learn more about self-healing CI →](https://nx.dev/ci/features/self-healing-ci)
-
-## 📁 Project Structure
-
-```
-├── apps/
-│   ├── shop/           [scope:shop]    - Angular e-commerce app
-│   ├── shop-e2e/                       - E2E tests for shop
-│   └── api/            [scope:api]     - Backend API with Docker
-├── libs/
-│   ├── shop/
-│   │   ├── feature-products/        [scope:shop,type:feature] - Product listing
-│   │   ├── feature-product-detail/  [scope:shop,type:feature] - Product details
-│   │   ├── data/                    [scope:shop,type:data]    - Data access
-│   │   └── shared-ui/               [scope:shop,type:ui]      - UI components
-│   ├── api/
-│   │   └── products/    [scope:api]    - Product service
-│   └── shared/
-│       └── models/      [scope:shared,type:data] - Shared models
-├── nx.json             - Nx configuration
-├── tsconfig.json       - TypeScript configuration
-└── eslint.config.mjs   - ESLint with module boundary rules
-```
-
-## 🏷️ Understanding Tags
-
-This repository uses tags to enforce module boundaries:
-
-| Project            | Tags                         | Can Import From              |
-| ------------------ | ---------------------------- | ---------------------------- |
-| `shop`             | `scope:shop`                 | `scope:shop`, `scope:shared` |
-| `api`              | `scope:api`                  | `scope:api`, `scope:shared`  |
-| `feature-products` | `scope:shop`, `type:feature` | `scope:shop`, `scope:shared` |
-| `data`             | `scope:shop`, `type:data`    | `scope:shared`               |
-| `models`           | `scope:shared`, `type:data`  | Nothing (base library)       |
-
-## 📚 Useful Commands
+Para gerar relatório de cobertura:
 
 ```bash
-# Project exploration
-npx nx graph                                    # Interactive dependency graph
-npx nx list                                     # List installed plugins
-npx nx show project shop --web                 # View project details
-
-# Development
-npx nx serve shop                              # Serve Angular app
-npx nx serve api                               # Serve backend API
-npx nx build shop                              # Build Angular app
-npx nx test data                               # Test a specific library
-npx nx lint feature-products                   # Lint a specific library
-
-# Running multiple tasks
-npx nx run-many -t build                       # Build all projects
-npx nx run-many -t test --parallel=3          # Test in parallel
-npx nx run-many -t lint test build            # Run multiple targets
-
-# Affected commands (great for CI)
-npx nx affected -t build                       # Build only affected projects
-npx nx affected -t test                        # Test only affected projects
-
-# Docker operations
-npx nx docker:build api                        # Build Docker image
-npx nx docker:run api                          # Run Docker container
+npm run test:coverage
 ```
 
-## 🎯 Adding New Features
+---
 
-### Generate a new Angular application:
+## Estrutura de pastas
 
-```bash
-npx nx g @nx/angular:app my-app
+```
+src/
+├── app/
+│   ├── app.ts               # Componente raiz
+│   ├── app.config.ts        # Configuração global (providers, NgRx, rotas)
+│   ├── app.routes.ts        # Definição das rotas
+│   └── app.html / app.scss
+│
+├── features/
+│   └── users/               # Feature de usuários (auto-contida)
+│       ├── components/
+│       │   ├── user-card/           # Card de exibição de um usuário
+│       │   └── user-form-dialog/    # Dialog de criação e edição
+│       ├── models/
+│       │   ├── user.model.ts        # Interface User e tipo UserPayload
+│       │   └── phone-type.enum.ts   # Enum CELULAR / FIXO
+│       ├── pages/
+│       │   └── users-list/          # Página principal com listagem e busca
+│       ├── services/
+│       │   └── users.service.ts     # Comunicação HTTP com a API
+│       └── store/
+│           ├── actions/             # Action group (load, create, update)
+│           ├── effects/             # Efeitos assíncronos (chamadas HTTP)
+│           ├── reducers/            # Reducer com @ngrx/entity
+│           ├── selectors/           # Seletores memoizados
+│           └── state/               # Estado inicial e adapter
+│
+├── shared/
+│   └── validators/
+│       └── cpf.validator.ts         # Validador de CPF com cálculo dos dígitos verificadores
+│
+├── test-setup.ts            # Setup global do Vitest (zone.js + TestBed)
+└── styles.scss              # Estilos globais
 ```
 
-### Generate a new Angular library:
-
-```bash
-npx nx g @nx/angular:lib my-lib
+```
+mock-api/
+└── db.json                  # Base de dados do json-server
 ```
 
-### Generate a new Angular component:
+---
 
-```bash
-npx nx g @nx/angular:component my-component --project=my-lib
-```
+## Decisões de arquitetura
 
-### Generate a new API library:
+### Feature-based com feature autocontida
 
-```bash
-npx nx g @nx/node:lib my-api-lib
-```
+A pasta `features/users/` concentra tudo relacionado à feature de usuários: components, pages, services, models e store. Isso facilita localizar e escalar cada feature de forma independente, sem acoplamento com outras partes da aplicação.
 
-You can use `npx nx list` to see all available plugins and `npx nx list <plugin-name>` to see all generators for a specific plugin.
+### NgRx com @ngrx/entity
 
-## Nx Cloud
+O estado dos usuários é gerenciado via NgRx Store com a camada de `entity`, que fornece o adapter para operações de coleção (`setAll`, `addOne`, `upsertOne`) de forma eficiente e padronizada. O fluxo segue o padrão: **dispatch de action → effect faz a chamada HTTP → action de sucesso/falha atualiza o reducer**.
 
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Standalone Components + Lazy Loading
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Todos os componentes são standalone (sem NgModules). A rota principal carrega `UsersListPage` via `loadComponent`, mantendo o bundle inicial enxuto.
 
-## Install Nx Console
+### OnPush Change Detection
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+A página e os componentes usam `ChangeDetectionStrategy.OnPush`, o que limita re-renderizações ao que o NgRx entrega via Observables — sem verificações desnecessárias na árvore de componentes.
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Busca com debounce no formulário reativo
 
-## 🔗 Learn More
+A busca por nome usa `debounceTime(300)` + `distinctUntilChanged()` sobre um `FormControl`, evitando disparar uma requisição a cada tecla pressionada.
 
-- [Nx Documentation](https://nx.dev)
-- [Angular Monorepo Tutorial](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial)
-- [Module Boundaries](https://nx.dev/features/enforce-module-boundaries)
-- [Docker Integration](https://nx.dev/recipes/nx-release/release-docker-images)
-- [Playwright Testing](https://nx.dev/technologies/test-tools/playwright/introduction#e2e-testing)
-- [Vite with Angular](https://nx.dev/recipes/vite)
-- [Nx Cloud](https://nx.dev/ci/intro/why-nx-cloud)
-- [Releasing Packages](https://nx.dev/features/manage-releases)
+### json-server como API mock
 
-## 💬 Community
+A API mock roda em `http://localhost:3000/users`. A busca por nome utiliza o filtro `nome:contains` suportado pelo json-server 1.x, permitindo busca parcial case-insensitive sem necessidade de filtragem no cliente.
 
-Join the Nx community:
+### Validador de CPF customizado
 
-- [Discord](https://go.nx.dev/community)
-- [X (Twitter)](https://twitter.com/nxdevtools)
-- [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [YouTube](https://www.youtube.com/@nxdevtools)
-- [Blog](https://nx.dev/blog)
+Um `ValidatorFn` Angular em `shared/validators/cpf.validator.ts` valida o CPF via cálculo dos dois dígitos verificadores. Rejeita sequências repetidas (ex.: `111.111.111-11`) e CPFs com número de dígitos incorreto.

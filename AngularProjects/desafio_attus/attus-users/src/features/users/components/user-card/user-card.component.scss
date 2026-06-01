@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+.user-card {
+  display: grid;
+  grid-template-columns: 40px 1fr 1fr 40px;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+
+  .avatar {
+    color: #757575;
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .name {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .email {
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+  }
+
+  .edit {
+    justify-self: end;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+@media (max-width: 600px) {
+  .user-card {
+    grid-template-columns: 32px 1fr 40px;
+    grid-template-rows: auto auto;
+
+    .avatar {
+      grid-row: span 2;
+    }
+
+    .email {
+      grid-column: 2;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+
+    .edit {
+      grid-row: span 2;
+    }
+  }
+}
